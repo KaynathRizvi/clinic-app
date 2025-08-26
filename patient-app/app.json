@@ -3,6 +3,10 @@
     "name": "patient-app",
     "slug": "patient-app",
     "version": "1.0.0",
+     "extra": {
+      "SERVER_URL": "https://clinic-app-server.onrender.com",
+      "DEBUG_SERVER_URL": "http://localhost:5000"
+    },
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "patientapp",
