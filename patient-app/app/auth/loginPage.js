@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "reac
 import axios from "axios";
 import { useRouter } from "expo-router";
 import Constants from "expo-constants";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Determine server URL from Expo config
 const SERVER =
@@ -26,10 +27,17 @@ export default function LoginPage() {
         password,
       });
 
+      // Save token in AsyncStorage
+      await AsyncStorage.setItem("token", res.data.token);
+      
+      // Save user info in AsyncStorage
+      await AsyncStorage.setItem("user", JSON.stringify(res.data.user));
+
       Alert.alert("Success", "Login successful");
       console.log("Token:", res.data.token); // save this later with AsyncStorage
+
       // Navigate to home/dashboard after login
-      router.push("/home"); // you can create a home page later
+      router.push("/"); // you can create a home page later
     } catch (err) {
       Alert.alert("Error", err.response?.data?.msg || "Login failed");
     }
@@ -58,8 +66,12 @@ export default function LoginPage() {
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => router.push("/auth/register")}>
+      <TouchableOpacity onPress={() => router.push("/auth/registerPage")}>
         <Text style={styles.link}>Don't have an account? Register</Text>
+      </TouchableOpacity>
+      
+      <TouchableOpacity onPress={() => router.push("/")}>
+        <Text style={styles.link}>Go Back to Home</Text>
       </TouchableOpacity>
     </View>
   );

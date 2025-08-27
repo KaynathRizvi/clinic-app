@@ -1,11 +1,14 @@
-import { Stack } from 'expo-router';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import 'react-native-gesture-handler';
+import { Stack } from "expo-router";
 
-export default function Layout() {
+export default function RootLayout() {
   return (
-    <SafeAreaProvider>
-      <Stack screenOptions={{ headerShown: false }} />
-    </SafeAreaProvider>
+    <Stack screenOptions={{ headerShown: false }}>
+      {/* Auth screens */}
+      <Stack.Screen name="auth/loginPage" />
+      <Stack.Screen name="auth/registerPage" />
+
+      {/* Main tabs */}
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+    </Stack>
   );
 }

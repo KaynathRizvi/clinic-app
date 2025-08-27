@@ -24,8 +24,17 @@ mongoose
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
 // Routes
-const authRoutes = require("./routes/auth");
+const authRoutes = require("./routes/authroute");
 app.use("/api/auth", authRoutes);
+
+const appointmentRoutes = require("./routes/appointment");
+app.use("/api/appointment", appointmentRoutes);
+
+const prescriptionRoutes = require("./routes/prescription");
+app.use("/api/prescriptions", prescriptionRoutes);
+
+app.use("/api/doctors", require("./routes/doctors"));
+
 
 // Test root route
 app.get("/", (req, res) => {

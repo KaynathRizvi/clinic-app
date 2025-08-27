@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useRouter } from "expo-router";
 import Constants from "expo-constants";
@@ -30,8 +31,17 @@ export default function RegisterPage() {
         role,
       });
 
+      // Save token in AsyncStorage
+      await AsyncStorage.setItem("token", res.data.token);
+
+      // Save user info in AsyncStorage
+      await AsyncStorage.setItem("user", JSON.stringify(res.data.user));
+
+      Alert.alert("Success", "Register successful");
+      console.log("Token:", res.data.token); // save this later with AsyncStorage
+
       Alert.alert("Success", res.data.msg);
-      router.push("/auth/login"); // navigate to login after success
+      router.push("/"); // navigate to login after success
     } catch (err) {
       Alert.alert("Error", err.response?.data?.msg || "Something went wrong");
     }
@@ -69,6 +79,11 @@ export default function RegisterPage() {
       <TouchableOpacity onPress={() => router.push("/auth/loginPage")}>
         <Text style={styles.link}>Already have an account? Login</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => router.push("/")}>
+        <Text style={styles.link}>Go Back to Home</Text>
+      </TouchableOpacity>
+
     </View>
   );
 }
