@@ -5,7 +5,10 @@ import axios from "axios";
 import Constants from "expo-constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const SERVER = Constants.expoConfig.extra.DEBUG_SERVER_URL;
+// Expo server config
+const SERVER =
+  Constants.expoConfig?.extra?.DEBUG_SERVER_URL ||
+  Constants.expoConfig?.extra?.SERVER_URL;
 
 export default function PrescriptionPage() {
   const [prescriptions, setPrescriptions] = useState([]);

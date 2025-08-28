@@ -8,7 +8,7 @@ export default {
     extra: {
       //SERVER_URL: "https://clinic-app-server.onrender.com",
       DEBUG_SERVER_URL: "http://192.168.1.182:5000", // Production backend
-      DEBUG_SERVER_URL: "http://localhost:5000",            // Local dev backend
+      DEBUG_SERVER_URL: "http://localhost:5000",    // Local dev backend
     },
 
     orientation: "portrait",

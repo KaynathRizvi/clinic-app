@@ -1,31 +1,47 @@
 // src/components/Dashboard.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { FaCalendarCheck, FaPrescriptionBottleAlt, FaSignOutAlt } from "react-icons/fa";
+import "../styles/DashboardStyle.css";
 
 export default function Dashboard() {
   const navigate = useNavigate();
 
+  // Get doctor name from localStorage
+  const doctorName = localStorage.getItem("doctorName") || "Doctor";
+
   const handleLogout = () => {
     localStorage.removeItem("token");
-    window.location.href = "/login"; // redirect to login
+    localStorage.removeItem("doctorName");
+    localStorage.removeItem("doctorId");
+    window.location.href = "/";
   };
 
   return (
-    <div style={containerStyle}>
-      <h1 style={{ marginBottom: "40px" }}>Doctor Dashboard</h1>
+    <div className="dashboard-container">
+      <h1>Hii, Doctor {doctorName}</h1> {/* Greeting with doctor name */}
 
-      <div style={gridStyle}>
-        <div style={cardStyle} onClick={() => navigate("/doctor-appointments")}>
+      <div className="dashboard-grid">
+        <div
+          className="dashboard-card card-appointments"
+          onClick={() => navigate("/doctor-appointments")}
+        >
+          <FaCalendarCheck className="card-icon" />
           <h2>Appointments</h2>
-          <p>View all your scheduled appointments</p>
+          <p>View scheduled appointments</p>
         </div>
 
-        <div style={cardStyle} onClick={() => navigate("/all-prescriptions")}>
+        <div
+          className="dashboard-card card-prescriptions"
+          onClick={() => navigate("/all-prescriptions")}
+        >
+          <FaPrescriptionBottleAlt className="card-icon" />
           <h2>Prescription</h2>
-          <p>Create or view prescriptions</p>
+          <p>Access patients prescriptions</p>
         </div>
 
-        <div style={cardStyle} onClick={handleLogout}>
+        <div className="dashboard-card card-logout" onClick={handleLogout}>
+          <FaSignOutAlt className="card-icon" />
           <h2>Logout</h2>
           <p>Sign out from your account</p>
         </div>
@@ -33,34 +49,3 @@ export default function Dashboard() {
     </div>
   );
 }
-
-const containerStyle = {
-  padding: "40px",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-};
-
-const gridStyle = {
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-  gap: "20px",
-  width: "100%",
-  maxWidth: "900px",
-};
-
-const cardStyle = {
-  padding: "30px",
-  backgroundColor: "#007bff",
-  color: "white",
-  borderRadius: "12px",
-  cursor: "pointer",
-  boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
-  transition: "transform 0.2s, background-color 0.2s",
-  textAlign: "center",
-};
-
-cardStyle[':hover'] = {
-  transform: "translateY(-5px)",
-  backgroundColor: "#0056b3",
-};

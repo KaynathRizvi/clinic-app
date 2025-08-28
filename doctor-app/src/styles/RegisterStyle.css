@@ -1,0 +1,160 @@
+.register-wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #dcf4f4, #feffff);
+    overflow: hidden;
+}
+
+/* Container for registration card */
+.register-container {
+    width: 100%;
+    max-width: 500px;
+    padding: 2.5rem;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.25);
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Heading */
+.register-container h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #056c6c;
+    text-shadow: 0.05rem 0.05rem 0.2rem rgba(0, 0, 0, 0.1);
+}
+
+/* Form fields */
+.register-container form div {
+    margin-bottom: 1.2rem;
+    text-align: left;
+}
+
+.register-container label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    color: #056c6c;
+}
+
+.register-container input {
+    width: 100%;
+    padding: 0.8rem 0.8rem; /* vertical + horizontal padding */
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.register-container input::placeholder {
+    color: #999; /* placeholder color */
+    padding-left: 0.3rem; /* optional left padding */
+}
+
+.register-container input:focus {
+    outline: none;
+    border-color: #056c6c;
+    box-shadow: 0 0 0.5rem rgba(5, 108, 108, 0.3);
+}
+
+/* Button */
+.register-container button {
+    width: 100%;
+    padding: 0.8rem; /* match input padding */
+    background: #056c6c;
+    border: none;
+    border-radius: 0.5rem;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+}
+
+.register-container button:hover {
+    transform: translateY(-0.1rem);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    background-color: #024747;
+}
+
+.register-container button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Login link */
+.register-container p {
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.register-container p span {
+    color: #056c6c;
+    cursor: pointer;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.register-container p span:hover {
+    color: #033d3d;
+}
+
+/* Error / Success messages */
+.field-error {
+    color: #ff4d4f;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+.form-error {
+    color: #ff4d4f;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.form-success {
+    color: #4caf50;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (min-width: 360px) and (max-width: 480px) {
+    .register-container {
+        padding: 1.5rem;
+        max-width: 300px;
+    }
+
+    .register-container input {
+        padding: 0.6rem 0.6rem;
+    }
+
+    .register-container button {
+        padding: 0.7rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .register-container {
+        padding: 1.2rem;
+        max-width: 250px;
+    }
+
+    .register-container input {
+        padding: 0.6rem 0.6rem;
+    }
+
+    .register-container button {
+        padding: 0.7rem;
+    }
+}

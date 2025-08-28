@@ -1,0 +1,14 @@
+/* Ensure content is not hidden behind fixed navbar */
+.app-content {
+  padding-top: 70px; /* height of navbar */
+  min-height: 100vh; /* full viewport height */
+  box-sizing: border-box;
+  background: #f3f4f6; /* light background */
+}
+
+/* Optional: responsive padding for mobile */
+@media (max-width: 768px) {
+  .app-content {
+    padding-top: 60px;
+  }
+}

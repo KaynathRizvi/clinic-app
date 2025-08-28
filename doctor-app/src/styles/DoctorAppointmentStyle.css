@@ -1,0 +1,74 @@
+.appointments-wrapper {
+    min-height: 100vh;
+    background: white;
+    width: 100vw;
+    padding: 4rem 1rem 1rem 1rem;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.appointments-wrapper h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    color: #056c6c;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.appointment-card {
+    background: #fff;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    box-shadow: 0 0.3rem 0.8rem rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.appointment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    background-color: #ffffff; /* white background */
+    border: 2px solid #056c6c; /* professional dark teal border */
+    color: #056c6c; /* text color matching border */
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-radius: 8px 8px 0 0; /* rounded top corners */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.appointment-header:hover {
+    background-color: #056c6c; /* teal background on hover */
+    color: #ffffff; /* white text on hover */
+}
+
+.appointment-content {
+    padding: 1rem 1.5rem;
+    display: none;
+    background: #f9f9f9;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: #333;
+}
+
+.appointment-content p {
+    margin: 0.4rem 0;
+}
+
+.complete-btn {
+    margin-top: 0.8rem;
+    padding: 0.5rem 1rem;
+    background: #1f6af5;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.complete-btn:hover {
+    background: #335675;
+}

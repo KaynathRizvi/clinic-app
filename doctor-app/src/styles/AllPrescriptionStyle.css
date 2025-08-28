@@ -1,0 +1,83 @@
+.prescriptions-wrapper {
+    min-height: 100vh;
+    background: white;
+    width: 100vw;
+    padding: 4rem 1rem 1rem 1rem;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.prescriptions-wrapper h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: #056c6c;
+}
+
+/* Each prescription card */
+.prescription-card {
+    background: #fff;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    box-shadow: 0 0.3rem 0.8rem rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* Header showing patient name & date */
+.prescription-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    background-color: #ffffff;
+    border: 2px solid #056c6c;
+    color: #056c6c;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-radius: 8px 8px 0 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.prescription-header:hover {
+    background-color: #056c6c;
+    color: #ffffff;
+}
+
+/* Content shown on dropdown open */
+.prescription-content {
+    padding: 1rem 1.5rem;
+    background: #f9f9f9;
+    font-size: 1rem;
+    color: #333;
+    animation: fadeIn 0.3s ease;
+}
+
+.prescription-content p,
+.prescription-content ul {
+    margin: 0.5rem 0;
+}
+
+.prescription-content ul {
+    padding-left: 1.2rem;
+}
+
+.prescription-content li {
+    margin-bottom: 0.3rem;
+}
+
+/* Fade-in animation for dropdown */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

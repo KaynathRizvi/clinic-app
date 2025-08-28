@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Button, TouchableOpacity, FlatList, StyleSheet, Platform, Alert } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+  Platform,
+  Alert,
+} from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import Constants from "expo-constants";
+import { useNavigation } from "@react-navigation/native";
 
 // Expo server config
 const SERVER =
@@ -11,13 +21,12 @@ const SERVER =
   Constants.expoConfig?.extra?.SERVER_URL;
 
 export default function BookAppointment() {
+  const navigation = useNavigation();
+
   const [doctors, setDoctors] = useState([]);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
-  const [message, setMessage] = useState(null);
-  const [messageType, setMessageType] = useState("success"); // "success" or "error"
-
 
   // Fetch doctors from backend
   useEffect(() => {
@@ -32,6 +41,7 @@ export default function BookAppointment() {
         setDoctors(res.data);
       } catch (err) {
         console.log("Fetch doctors error:", err.response?.data || err.message);
+        Alert.alert("Error", "Failed to fetch doctors.");
       }
     };
 
@@ -39,38 +49,44 @@ export default function BookAppointment() {
   }, []);
 
   const handleBook = async () => {
-  if (!selectedDoctor || !date) {
-    setMessageType("error");
-    setMessage("Please select a doctor and date.");
-    return;
-  }
-
-  try {
-    const token = await AsyncStorage.getItem("token");
-    if (!token) {
-      setMessageType("error");
-      setMessage("User not authenticated.");
+    if (!selectedDoctor || !date) {
+      Alert.alert("Error", "Please select a doctor and date.");
       return;
     }
 
-    const res = await axios.post(
-      `${SERVER}/api/appointment/book`,
-      { doctorId: selectedDoctor._id, date: date.toISOString() },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (!token) {
+        Alert.alert("Error", "User not authenticated.");
+        return;
+      }
 
-    console.log("Booking response:", res.data);
+      const res = await axios.post(
+        `${SERVER}/api/appointment/book`,
+        { doctorId: selectedDoctor._id, date: date.toISOString() },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-    setMessageType("success");
-    setMessage(res.data?.msg || "Appointment booked successfully!");
-    setSelectedDoctor(null);
-  } catch (err) {
-    console.log("Booking Error:", err.response?.data || err.message);
-    setMessageType("error");
-    setMessage(err.response?.data?.msg || "Booking failed");
-  }
-};
+      console.log("Booking response:", res.data);
 
+      Alert.alert(
+        "Success",
+        res.data?.msg || "Appointment booked successfully!",
+        [
+          {
+            text: "OK",
+            onPress: () => navigation.navigate("index"),
+          },
+        ],
+        { cancelable: false }
+      );
+
+      setSelectedDoctor(null);
+    } catch (err) {
+      console.log("Booking Error:", err.response?.data || err.message);
+      Alert.alert("Error", err.response?.data?.msg || "Booking failed");
+    }
+  };
 
   const showDatePicker = () => setShowPicker(true);
 
@@ -87,7 +103,10 @@ export default function BookAppointment() {
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
           <TouchableOpacity
-            style={[styles.doctorItem, selectedDoctor?._id === item._id && styles.selectedDoctor]}
+            style={[
+              styles.doctorItem,
+              selectedDoctor?._id === item._id && styles.selectedDoctor,
+            ]}
             onPress={() => setSelectedDoctor(item)}
           >
             <Text style={styles.doctorText}>{item.name}</Text>
@@ -106,6 +125,7 @@ export default function BookAppointment() {
           mode="date"
           display="default"
           onChange={onDateChange}
+          minimumDate={new Date()}
         />
       )}
 
@@ -117,8 +137,22 @@ export default function BookAppointment() {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, backgroundColor: "#f9f9f9" },
   heading: { fontSize: 18, fontWeight: "bold", marginTop: 20 },
-  doctorItem: { padding: 15, marginVertical: 5, backgroundColor: "#fff", borderRadius: 8, borderWidth: 1, borderColor: "#ddd" },
+  doctorItem: {
+    padding: 15,
+    marginVertical: 5,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#ddd",
+  },
   selectedDoctor: { backgroundColor: "#cce5ff", borderColor: "#007bff" },
   doctorText: { fontSize: 16 },
-  input: { padding: 10, marginTop: 10, borderWidth: 1, borderColor: "#ccc", borderRadius: 5, justifyContent: "center" },
+  input: {
+    padding: 10,
+    marginTop: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    justifyContent: "center",
+  },
 });

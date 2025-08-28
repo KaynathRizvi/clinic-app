@@ -1,0 +1,102 @@
+.navbar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #056c6c;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  color: white;
+  box-sizing: border-box;
+}
+
+.navbar-left .navbar-logo {
+  font-weight: 700;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.navbar-center {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.navbar-center a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+  cursor: pointer;
+}
+
+.navbar-center a:hover {
+  color: #083232;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.doctor-name {
+  font-weight: 600;
+}
+
+.logout-btn {
+  background: #ff5c5c;
+  border: none;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.logout-btn:hover {
+  transform: translateY(-0.1rem);
+  box-shadow: 0 0.3rem 0.6rem rgba(0,0,0,0.2);
+}
+
+/* Hamburger Icon */
+.hamburger {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Responsive Menu */
+@media screen and (max-width: 768px) {
+  .navbar-center {
+    position: fixed;
+    top: 4rem; /* navbar height */
+    left: -100%;
+    flex-direction: column;
+    background: #056c6c;
+    width: 100%;
+    transition: left 0.3s ease;
+    padding: 1rem 0;
+    z-index: 999;
+  }
+
+  .navbar-center.active {
+    left: 0;
+  }
+
+  .navbar-center a {
+    padding: 0.8rem 0;
+    width: 100%;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .hamburger {
+    display: block;
+    color: white;
+  }
+}

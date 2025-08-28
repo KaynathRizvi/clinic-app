@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { SERVER_URL } from "../../config";
+import "../styles/PrescriptionStyle.css";
 
 export default function Prescription() {
   const location = useLocation();
@@ -15,6 +16,8 @@ export default function Prescription() {
     medicines: [{ name: "", dosage: "", duration: "" }],
     notes: "",
   });
+
+  const [showModal, setShowModal] = useState(false);
 
   if (!appointment) return <p>No appointment selected!</p>;
 
@@ -35,46 +38,55 @@ export default function Prescription() {
     });
   };
 
+  const removeMedicine = (index) => {
+    const newMeds = prescription.medicines.filter((_, i) => i !== index);
+    setPrescription({ ...prescription, medicines: newMeds });
+  };
+
   const submitPrescription = async (e) => {
-  e.preventDefault();
-  try {
-    const validMedicines = prescription.medicines.filter(
-      (med) => med.name && med.dosage && med.duration
-    );
+    e.preventDefault();
+    try {
+      const validMedicines = prescription.medicines.filter(
+        (med) => med.name && med.dosage && med.duration
+      );
 
-    await axios.post(
-      `${SERVER_URL}/api/prescriptions`,
-      {
-        appointmentId: appointment._id,
-        doctorId: appointment.doctor?._id,
-        patientId: appointment.patient?._id,
-        symptoms: prescription.symptoms,
-        diagnosis: prescription.diagnosis,
-        medicines: validMedicines,
-        notes: prescription.notes,
-      },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+      await axios.post(
+        `${SERVER_URL}/api/prescriptions`,
+        {
+          appointmentId: appointment._id,
+          doctorId: appointment.doctor?._id,
+          patientId: appointment.patient?._id,
+          symptoms: prescription.symptoms,
+          diagnosis: prescription.diagnosis,
+          medicines: validMedicines,
+          notes: prescription.notes,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-    await axios.put(
-      `${SERVER_URL}/api/appointment/status/${appointment._id}`,
-      { status: "Completed" },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+      await axios.put(
+        `${SERVER_URL}/api/appointment/status/${appointment._id}`,
+        { status: "Completed" },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-    window.alert("Prescription saved and appointment marked as Completed!");
+      // Show modal instead of alert
+      setShowModal(true);
+    } catch (err) {
+      console.error(err.response?.data || err.message);
+      window.alert("Failed to save prescription");
+    }
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
     navigate("/doctor-appointments");
-
-  } catch (err) {
-    console.error(err.response?.data || err.message);
-    window.alert("Failed to save prescription");
-  }
-};
+  };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="prescription-wrapper">
       <h2>Prescription for {appointment.patient?.name}</h2>
-      <form onSubmit={submitPrescription}>
+      <form className="prescription-form" onSubmit={submitPrescription}>
         <div>
           <label>Symptoms:</label>
           <textarea
@@ -93,10 +105,10 @@ export default function Prescription() {
           />
         </div>
 
-        <div>
+        <div className="medicine-container">
           <label>Medicines:</label>
           {prescription.medicines.map((med, idx) => (
-            <div key={idx}>
+            <div className="medicine-row" key={idx}>
               <input
                 type="text"
                 name="name"
@@ -121,9 +133,24 @@ export default function Prescription() {
                 onChange={(e) => handleChange(e, idx, "medicines")}
                 required
               />
+              {idx > 0 && (
+                <button
+                  type="button"
+                  className="remove-medicine-btn"
+                  onClick={() => removeMedicine(idx)}
+                >
+                  Remove
+                </button>
+              )}
             </div>
           ))}
-          <button type="button" onClick={addMedicine}>Add Medicine</button>
+          <button
+            type="button"
+            className="add-medicine-btn"
+            onClick={addMedicine}
+          >
+            Add Medicine
+          </button>
         </div>
 
         <div>
@@ -134,8 +161,20 @@ export default function Prescription() {
           />
         </div>
 
-        <button type="submit" style={{ marginTop: "10px" }}>Save Prescription</button>
+        <button type="submit" className="submit-btn">
+          Save Prescription
+        </button>
       </form>
+
+      {/* Modal */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <p>Prescription saved successfully!</p>
+            <button onClick={handleModalClose}>OK</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
