@@ -5,15 +5,15 @@ import {
   Button,
   TouchableOpacity,
   FlatList,
-  StyleSheet,
-  Platform,
   Alert,
+  Platform,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import Constants from "expo-constants";
 import { useNavigation } from "@react-navigation/native";
+import styles from "../styles/bookApptStyle";   // ✅ import styles
 
 // Expo server config
 const SERVER =
@@ -28,7 +28,7 @@ export default function BookAppointment() {
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
 
-  // Fetch doctors from backend
+  // Fetch doctors
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
@@ -67,17 +67,10 @@ export default function BookAppointment() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      console.log("Booking response:", res.data);
-
       Alert.alert(
         "Success",
         res.data?.msg || "Appointment booked successfully!",
-        [
-          {
-            text: "OK",
-            onPress: () => navigation.navigate("index"),
-          },
-        ],
+        [{ text: "OK", onPress: () => navigation.navigate("index") }],
         { cancelable: false }
       );
 
@@ -86,13 +79,6 @@ export default function BookAppointment() {
       console.log("Booking Error:", err.response?.data || err.message);
       Alert.alert("Error", err.response?.data?.msg || "Booking failed");
     }
-  };
-
-  const showDatePicker = () => setShowPicker(true);
-
-  const onDateChange = (event, selectedDate) => {
-    setShowPicker(Platform.OS === "ios"); // keep open for iOS
-    if (selectedDate) setDate(selectedDate);
   };
 
   return (
@@ -115,7 +101,7 @@ export default function BookAppointment() {
       />
 
       <Text style={styles.heading}>Pick Date:</Text>
-      <TouchableOpacity style={styles.input} onPress={showDatePicker}>
+      <TouchableOpacity style={styles.input} onPress={() => setShowPicker(true)}>
         <Text>{date.toDateString()}</Text>
       </TouchableOpacity>
 
@@ -124,35 +110,18 @@ export default function BookAppointment() {
           value={date}
           mode="date"
           display="default"
-          onChange={onDateChange}
+          onChange={(event, selectedDate) => {
+            setShowPicker(Platform.OS === "ios");
+            if (selectedDate) setDate(selectedDate);
+          }}
           minimumDate={new Date()}
         />
       )}
 
-      <Button title="Book Appointment" onPress={handleBook} />
+      {/* Custom styled button instead of default <Button> */}
+      <TouchableOpacity style={styles.bookButton} onPress={handleBook}>
+        <Text style={styles.bookButtonText}>Book Appointment</Text>
+      </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: "#f9f9f9" },
-  heading: { fontSize: 18, fontWeight: "bold", marginTop: 20 },
-  doctorItem: {
-    padding: 15,
-    marginVertical: 5,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#ddd",
-  },
-  selectedDoctor: { backgroundColor: "#cce5ff", borderColor: "#007bff" },
-  doctorText: { fontSize: 16 },
-  input: {
-    padding: 10,
-    marginTop: 10,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    justifyContent: "center",
-  },
-});
