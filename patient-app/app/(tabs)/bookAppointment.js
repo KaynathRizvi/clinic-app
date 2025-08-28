@@ -17,8 +17,8 @@ import styles from "../styles/bookApptStyle";   // ✅ import styles
 
 // Expo server config
 const SERVER =
-  Constants.expoConfig?.extra?.DEBUG_SERVER_URL ||
-  Constants.expoConfig?.extra?.SERVER_URL;
+  Constants.expoConfig?.extra?.SERVER_URL ||
+  Constants.expoConfig?.extra?.DEBUG_SERVER_URL;
 
 export default function BookAppointment() {
   const navigation = useNavigation();

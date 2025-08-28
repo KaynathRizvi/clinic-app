@@ -13,12 +13,6 @@ export default StyleSheet.create({
         backgroundColor: "#f0f4f3",
         padding: 16,
     },
-    header: {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "center",
-        gap: 200,
-    },
     heading: {
         fontSize: 26,
         fontWeight: "800",

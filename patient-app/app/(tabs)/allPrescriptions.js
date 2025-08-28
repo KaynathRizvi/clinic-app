@@ -7,8 +7,8 @@ import { Ionicons } from "@expo/vector-icons";
 import styles from "../styles/allPrescStyle";
 
 const SERVER =
-  Constants.expoConfig?.extra?.DEBUG_SERVER_URL ||
-  Constants.expoConfig?.extra?.SERVER_URL;
+  Constants.expoConfig?.extra?.SERVER_URL ||
+  Constants.expoConfig?.extra?.DEBUG_SERVER_URL;
 
 export default function PrescriptionPage() {
   const [prescriptions, setPrescriptions] = useState([]);

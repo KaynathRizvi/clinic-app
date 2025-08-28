@@ -64,7 +64,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="viewAppointment"
         options={{
-          title: "View",
+          title: "View Appointment",
           tabBarIcon: ({ color, size }) => <Ionicons name="calendar" size={size} color={color} />,
           headerStyle: { backgroundColor: "#056c6c" },
           headerTintColor: "#fff",
@@ -73,7 +73,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="bookAppointment"
         options={{
-          title: "Book",
+          title: "Book Appointment",
           tabBarIcon: ({ color, size }) => <Ionicons name="calendar" size={size} color={color} />,
           headerStyle: { backgroundColor: "#056c6c" },
           headerTintColor: "#fff",
@@ -82,7 +82,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="allPrescriptions"
         options={{
-          title: "Prescriptions",
+          title: "View All Prescriptions",
           tabBarIcon: ({ color, size }) => <Ionicons name="document-text" size={size} color={color} />,
           headerStyle: { backgroundColor: "#056c6c" },
           headerTintColor: "#fff",

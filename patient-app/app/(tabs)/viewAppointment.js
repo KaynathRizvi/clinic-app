@@ -6,7 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import styles from "../styles/viewApptStyle";
 
-const SERVER = Constants.expoConfig?.extra?.DEBUG_SERVER_URL || Constants.expoConfig?.extra?.SERVER_URL;
+const SERVER = Constants.expoConfig?.extra?.SERVER_URL || Constants.expoConfig?.extra?.DEBUG_SERVER_URL;
 
 export default function ViewAppointments() {
   const [appointments, setAppointments] = useState([]);

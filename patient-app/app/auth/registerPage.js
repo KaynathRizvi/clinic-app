@@ -7,8 +7,8 @@ import Constants from "expo-constants";
 import styles from "../styles/registerPageStyle";
 
 const SERVER =
-  Constants.expoConfig?.extra?.DEBUG_SERVER_URL ||
-  Constants.expoConfig?.extra?.SERVER_URL;
+  Constants.expoConfig?.extra?.SERVER_URL ||
+  Constants.expoConfig?.extra?.DEBUG_SERVER_URL;
 
 export default function RegisterPage() {
   const [name, setName] = useState("");

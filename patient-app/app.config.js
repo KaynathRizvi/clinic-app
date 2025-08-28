@@ -7,6 +7,7 @@ export default {
     // 👇 You can add comments now!
     extra: {
       SERVER_URL: "https://clinic-app-server.onrender.com",
+      //SERVER_URL: "http://localhost:5000",
       DEBUG_SERVER_URL: "http://localhost:5000",    // Local dev backend
     },
 

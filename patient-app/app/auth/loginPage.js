@@ -7,8 +7,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../styles/loginPageStyles";
 
 const SERVER =
-  Constants.expoConfig?.extra?.DEBUG_SERVER_URL ||
-  Constants.expoConfig?.extra?.SERVER_URL;
+  Constants.expoConfig?.extra?.SERVER_URL ||
+  Constants.expoConfig?.extra?.DEBUG_SERVER_URL;
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");

@@ -8,8 +8,8 @@ import { Ionicons } from "@expo/vector-icons"; // ✅ Icon package
 import styles from "./styles/viewPrescStyle";
 
 const SERVER =
-  Constants.expoConfig?.extra?.DEBUG_SERVER_URL ||
-  Constants.expoConfig?.extra?.SERVER_URL;
+  Constants.expoConfig?.extra?.SERVER_URL ||
+  Constants.expoConfig?.extra?.DEBUG_SERVER_URL;
 
 export default function ViewPrescription() {
   const { appointmentId } = useLocalSearchParams();
@@ -73,7 +73,6 @@ export default function ViewPrescription() {
 
   return (
     <ScrollView style={styles.container}>
-    <View style={styles.header}>
       {/* 🔙 Back Arrow */}
       <TouchableOpacity
         onPress={() => router.push("/viewAppointment")}
@@ -87,7 +86,6 @@ export default function ViewPrescription() {
 
       <Text style={styles.heading}>Prescription</Text>
 
-      </View>
       <View style={styles.card}>
         <Text style={styles.label}>Doctor:</Text>
         <Text style={styles.value}>{prescription.doctorId?.name}</Text>
