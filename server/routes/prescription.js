@@ -90,5 +90,37 @@ router.get("/patient", authMiddleware, async (req, res) => {
   }
 });
 
+// GET /api/prescriptions/:appointmentId - fetch prescription for a specific appointment
+router.get("/:appointmentId", authMiddleware, async (req, res) => {
+  try {
+    const { appointmentId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(appointmentId)) {
+      return res.status(400).json({ msg: "Invalid appointmentId" });
+    }
+
+    const prescription = await Prescription.findOne({ appointmentId })
+      .populate("doctorId", "name email")
+      .populate("patientId", "name email");
+
+    if (!prescription) {
+      return res.status(404).json({ msg: "Prescription not found for this appointment" });
+    }
+
+    // Ensure the logged-in user is either the patient or the doctor
+    if (
+      prescription.patientId._id.toString() !== req.user.id &&
+      prescription.doctorId._id.toString() !== req.user.id
+    ) {
+      return res.status(403).json({ msg: "Access denied" });
+    }
+
+    res.json(prescription);
+  } catch (err) {
+    console.error("Error fetching prescription:", err);
+    res.status(500).json({ msg: "Server error" });
+  }
+});
+
 
 module.exports = router;

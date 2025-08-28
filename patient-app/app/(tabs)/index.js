@@ -1,7 +1,8 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, Image } from "react-native";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import styles from "../styles/indexStyle";
 
 export default function Homepage() {
   const router = useRouter();
@@ -45,7 +46,6 @@ export default function Homepage() {
           onPress={() => router.push("/prescriptionPage")}
         >
           <Image
-            // Updated prescription icon URL
             source={{ uri: "https://img.icons8.com/color/96/pills.png" }}
             style={styles.icon}
           />
@@ -73,72 +73,3 @@ export default function Homepage() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f7f9fc",
-  },
-  header: {
-    marginTop: 60,
-    alignItems: "center",
-    marginBottom: 30,
-    paddingHorizontal: 20,
-  },
-  welcome: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#007bff",
-    textAlign: "center",
-  },
-  tagline: {
-    fontSize: 16,
-    color: "#555",
-    textAlign: "center",
-    marginTop: 8,
-  },
-  features: {
-    width: "100%",
-    alignItems: "center",
-  },
-  card: {
-    width: "90%",
-    backgroundColor: "#fff",
-    borderRadius: 15,
-    padding: 20,
-    marginBottom: 20,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 5 },
-    elevation: 5,
-  },
-  icon: {
-    width: 80,
-    height: 80,
-    marginBottom: 15,
-    resizeMode: "contain",
-  },
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#007bff",
-    marginBottom: 8,
-  },
-  cardDesc: {
-    fontSize: 14,
-    color: "#555",
-    textAlign: "center",
-  },
-  footer: {
-    marginTop: 30,
-    marginBottom: 60,
-    paddingHorizontal: 20,
-  },
-  footerText: {
-    fontSize: 14,
-    color: "#888",
-    textAlign: "center",
-  },
-});

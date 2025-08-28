@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet, Linking, TouchableOpacity } from "react-native";
+import { View, Text, Linking, TouchableOpacity } from "react-native";
+import styles from "../styles/contactPageStyle";
 
 export default function Contact() {
   return (
@@ -23,11 +24,3 @@ export default function Contact() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: "#f9f9f9" },
-  title: { fontSize: 22, fontWeight: "bold", color: "#007bff", marginBottom: 15 },
-  text: { fontSize: 16, color: "#333", marginBottom: 10 },
-  label: { fontSize: 16, fontWeight: "bold", marginTop: 10, color: "#444" },
-  link: { fontSize: 16, color: "#007bff", marginBottom: 10 },
-});

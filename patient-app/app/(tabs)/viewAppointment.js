@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StyleSheet, Alert, ActivityIndicator } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
 import axios from "axios";
 import Constants from "expo-constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
+import styles from "../styles/viewApptStyle";
 
 const SERVER = Constants.expoConfig?.extra?.DEBUG_SERVER_URL || Constants.expoConfig?.extra?.SERVER_URL;
 
 export default function ViewAppointments() {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [expandedIds, setExpandedIds] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -36,6 +40,19 @@ export default function ViewAppointments() {
     fetchAppointments();
   }, []);
 
+  const toggleExpand = (id) => {
+    setExpandedIds(prev =>
+      prev.includes(id) ? prev.filter(eId => eId !== id) : [...prev, id]
+    );
+  };
+
+  const handleViewPrescription = (appointmentId) => {
+    router.push({
+      pathname: "/viewPrescription",
+      params: { appointmentId }, // pass appointmentId as query param
+    });
+  };
+
   if (loading) {
     return (
       <View style={[styles.container, { justifyContent: "center", alignItems: "center" }]}>
@@ -52,10 +69,44 @@ export default function ViewAppointments() {
         data={appointments}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
-          <View style={styles.card}>
-            <Text>Doctor: {item.doctor?.name || "N/A"}</Text>
-            <Text>Date: {new Date(item.date).toLocaleDateString()}</Text>
-            <Text>Status: {item.status || "Pending"}</Text>
+          <View>
+            <TouchableOpacity
+              style={styles.dropdownHeader}
+              onPress={() => toggleExpand(item._id)}
+            >
+              <Text style={styles.dropdownHeaderText}>
+                {item.doctor?.name || "N/A"}
+              </Text>
+              <Text style={styles.dropdownHeaderText}>
+                {item.status || "Pending"}
+              </Text>
+            </TouchableOpacity>
+
+            {expandedIds.includes(item._id) && (
+              <View style={styles.dropdownContent}>
+                <Text>Date: {new Date(item.date).toLocaleDateString()}</Text>
+
+                {item.status && item.status.toLowerCase() !== "pending" ? (
+                  <TouchableOpacity
+                    style={{
+                      marginTop: 10,
+                      backgroundColor: "#007bff",
+                      padding: 10,
+                      borderRadius: 8,
+                    }}
+                    onPress={() => handleViewPrescription(item._id)}
+                  >
+                    <Text style={{ color: "#fff", textAlign: "center", fontWeight: "bold" }}>
+                      View Prescription
+                    </Text>
+                  </TouchableOpacity>
+                ) : (
+                  <Text style={{ marginTop: 10, fontStyle: "italic", color: "#888" }}>
+                    Prescription not yet available
+                  </Text>
+                )}
+              </View>
+            )}
           </View>
         )}
         ListEmptyComponent={
@@ -67,16 +118,3 @@ export default function ViewAppointments() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: "#f9f9f9" },
-  heading: { fontSize: 20, fontWeight: "bold", marginBottom: 15 },
-  card: {
-    padding: 15,
-    backgroundColor: "#fff",
-    marginVertical: 5,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#ddd",
-  },
-});

@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, ScrollView } from "react-native";
+import styles from "../styles/aboutPageStyles"; // import external styles
 
 export default function About() {
   return (
@@ -15,9 +16,3 @@ export default function About() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flexGrow: 1, padding: 20, backgroundColor: "#f9f9f9" },
-  title: { fontSize: 22, fontWeight: "bold", color: "#007bff", marginBottom: 15 },
-  text: { fontSize: 16, color: "#333", lineHeight: 22 },
-});

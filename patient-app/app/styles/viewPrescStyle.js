@@ -1,0 +1,102 @@
+import { StyleSheet } from "react-native";
+
+export default StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#f0f4f3", // softer background
+        padding: 16,
+    },
+    containerCenter: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#f0f4f3",
+        padding: 16,
+    },
+    header: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        gap: 200,
+    },
+    heading: {
+        fontSize: 26,
+        fontWeight: "800",
+        marginBottom: 20,
+        color: "#056c6",
+        textAlign: "center",
+        letterSpacing: 0.7,
+    },
+    card: {
+        backgroundColor: "#fff",
+        padding: 20,
+        borderRadius: 16,
+        marginBottom: 20,
+        borderWidth: 1,
+        borderColor: "#e0e6e5", // subtle border
+        shadowColor: "#000",
+        shadowOpacity: 0.06,
+        shadowRadius: 6,
+        shadowOffset: { width: 0, height: 3 },
+        elevation: 2,
+    },
+    sectionBox: {
+        borderWidth: 1,
+        borderColor: "#d6e4e2",
+        borderRadius: 12,
+        padding: 12,
+        marginBottom: 14,
+        backgroundColor: "#fafdfc",
+    },
+    sectionTitle: {
+        fontSize: 18,
+        fontWeight: "700",
+        color: "#056c6",
+        marginBottom: 8,
+        borderBottomWidth: 1,
+        borderBottomColor: "#e0e6e5",
+        paddingBottom: 4,
+    },
+    label: {
+        fontWeight: "600",
+        color: "#056c6",
+        marginBottom: 2,
+        fontSize: 15,
+        textTransform: "uppercase",
+        letterSpacing: 0.4,
+    },
+    value: {
+        color: "#333",
+        fontSize: 16,
+        lineHeight: 22,
+        marginBottom: 6,
+    },
+    pill: {
+        borderWidth: 1,
+        borderColor: "#056c6",
+        borderRadius: 20,
+        paddingVertical: 6,
+        paddingHorizontal: 14,
+        marginRight: 8,
+        marginBottom: 8,
+        backgroundColor: "#e6f5f3",
+    },
+    pillText: {
+        fontSize: 14,
+        fontWeight: "500",
+        color: "#056c6",
+    },
+    loadingText: {
+        marginTop: 12,
+        color: "#056c6",
+        fontSize: 16,
+        fontWeight: "500",
+    },
+    errorText: {
+        color: "#b00020",
+        fontStyle: "italic",
+        fontSize: 16,
+        textAlign: "center",
+        marginTop: 10,
+    },
+});

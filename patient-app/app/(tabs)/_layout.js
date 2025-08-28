@@ -29,8 +29,8 @@ export default function TabLayout() {
       key={isLoggedIn ? "loggedIn" : "loggedOut"} // forces remount to update tab label/icon
       initialRouteName="index"
       screenOptions={{
-        tabBarActiveTintColor: "#007bff",
-        headerStyle: { backgroundColor: "#007bff" },
+        tabBarActiveTintColor: "#056c6c",
+        headerStyle: { backgroundColor: "#056c6c" },
         headerTintColor: "#fff",
       }}
     >
@@ -39,6 +39,8 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color} />,
+          headerStyle: { backgroundColor: "#056c6c" },
+          headerTintColor: "#fff",
         }}
       />
       <Tabs.Screen
@@ -46,6 +48,8 @@ export default function TabLayout() {
         options={{
           title: "About",
           tabBarIcon: ({ color, size }) => <Ionicons name="information-circle" size={size} color={color} />,
+          headerStyle: { backgroundColor: "#056c6c" },
+          headerTintColor: "#fff",
         }}
       />
       <Tabs.Screen
@@ -53,6 +57,8 @@ export default function TabLayout() {
         options={{
           title: "Contact",
           tabBarIcon: ({ color, size }) => <Ionicons name="call" size={size} color={color} />,
+          headerStyle: { backgroundColor: "#056c6c" },
+          headerTintColor: "#fff",
         }}
       />
       <Tabs.Screen
@@ -60,6 +66,8 @@ export default function TabLayout() {
         options={{
           title: "View",
           tabBarIcon: ({ color, size }) => <Ionicons name="calendar" size={size} color={color} />,
+          headerStyle: { backgroundColor: "#056c6c" },
+          headerTintColor: "#fff",
         }}
       />
       <Tabs.Screen
@@ -67,13 +75,17 @@ export default function TabLayout() {
         options={{
           title: "Book",
           tabBarIcon: ({ color, size }) => <Ionicons name="calendar" size={size} color={color} />,
+          headerStyle: { backgroundColor: "#056c6c" },
+          headerTintColor: "#fff",
         }}
       />
       <Tabs.Screen
-        name="prescriptionPage"
+        name="allPrescriptions"
         options={{
           title: "Prescriptions",
           tabBarIcon: ({ color, size }) => <Ionicons name="document-text" size={size} color={color} />,
+          headerStyle: { backgroundColor: "#056c6c" },
+          headerTintColor: "#fff",
         }}
       />
       <Tabs.Screen

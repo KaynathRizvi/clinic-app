@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useRouter } from "expo-router";
 import Constants from "expo-constants";
+import styles from "../styles/registerPageStyle";
 
-// Determine server URL from Expo config
 const SERVER =
   Constants.expoConfig?.extra?.DEBUG_SERVER_URL ||
   Constants.expoConfig?.extra?.SERVER_URL;
@@ -14,12 +14,62 @@ export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("patient"); // fixed role for patient-app
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errors, setErrors] = useState({});
+  const [message, setMessage] = useState({ text: "", type: "" }); // type: 'success' | 'error'
   const router = useRouter();
+  const role = "patient";
+
+  // Validation function
+  const validateField = (field, value) => {
+    let msg = "";
+
+    switch (field) {
+      case "name":
+        if (!value.trim()) msg = "Name is required";
+        break;
+      case "email":
+        if (!value.trim()) msg = "Email is required";
+        else if (!/@/.test(value)) msg = "Email must contain @";
+        break;
+      case "password":
+        if (!value) msg = "Password is required";
+        else if (value.length < 8) msg = "Password must be at least 8 characters";
+        else if (!/[A-Z]/.test(value)) msg = "Password must have at least one uppercase letter";
+        else if (!/[!@#$%^&*]/.test(value)) msg = "Password must have at least one special character";
+        break;
+      case "confirmPassword":
+        if (!value) msg = "Confirm password is required";
+        else if (value !== password) msg = "Passwords do not match";
+        break;
+      default:
+        break;
+    }
+
+    setErrors(prev => ({ ...prev, [field]: msg }));
+  };
+
+  const handleChange = (field, value) => {
+    switch (field) {
+      case "name": setName(value); break;
+      case "email": setEmail(value); break;
+      case "password": setPassword(value); break;
+      case "confirmPassword": setConfirmPassword(value); break;
+    }
+    validateField(field, value);
+    setMessage({ text: "", type: "" }); // clear global message when user types
+  };
 
   const handleRegister = async () => {
-    if (!name || !email || !password) {
-      Alert.alert("Error", "All fields are required");
+    // Run all validations
+    validateField("name", name);
+    validateField("email", email);
+    validateField("password", password);
+    validateField("confirmPassword", confirmPassword);
+
+    // If any field has error, prevent submission
+    if (Object.values(errors).some(e => e)) {
+      setMessage({ text: "Please fix the errors above.", type: "error" });
       return;
     }
 
@@ -31,50 +81,68 @@ export default function RegisterPage() {
         role,
       });
 
-      // Save token in AsyncStorage
       await AsyncStorage.setItem("token", res.data.token);
-
-      // Save user info in AsyncStorage
       await AsyncStorage.setItem("user", JSON.stringify(res.data.user));
 
-      Alert.alert("Success", "Register successful");
-      console.log("Token:", res.data.token); // save this later with AsyncStorage
+      setMessage({ text: "Registration successful! Redirecting...", type: "success" });
 
-      Alert.alert("Success", res.data.msg);
-      router.push("/"); // navigate to login after success
+      // Optionally navigate after a short delay
+      setTimeout(() => router.push("/"), 2000);
+
     } catch (err) {
-      Alert.alert("Error", err.response?.data?.msg || "Something went wrong");
+      setMessage({ text: err.response?.data?.msg || "Something went wrong", type: "error" });
     }
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Register</Text>
 
       <TextInput
         placeholder="Name"
         style={styles.input}
         value={name}
-        onChangeText={setName}
+        onChangeText={(text) => handleChange("name", text)}
       />
+      {errors.name && <Text style={styles.error}>{errors.name}</Text>}
+
       <TextInput
         placeholder="Email"
         style={styles.input}
         value={email}
-        onChangeText={setEmail}
+        onChangeText={(text) => handleChange("email", text)}
         keyboardType="email-address"
       />
+      {errors.email && <Text style={styles.error}>{errors.email}</Text>}
+
       <TextInput
         placeholder="Password"
         style={styles.input}
-        secureTextEntry
         value={password}
-        onChangeText={setPassword}
+        onChangeText={(text) => handleChange("password", text)}
+        secureTextEntry
       />
+      {errors.password && <Text style={styles.error}>{errors.password}</Text>}
+
+      <TextInput
+        placeholder="Confirm Password"
+        style={styles.input}
+        value={confirmPassword}
+        onChangeText={(text) => handleChange("confirmPassword", text)}
+        secureTextEntry
+      />
+      {errors.confirmPassword && <Text style={styles.error}>{errors.confirmPassword}</Text>}
 
       <TouchableOpacity style={styles.button} onPress={handleRegister}>
         <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
+
+      {/* Global message */}
+      {message.text ? (
+        <Text style={[styles.message, { color: message.type === "error" ? "#ff4d4f" : "#4caf50" }]}>
+          {message.text}
+        </Text>
+      ) : null}
 
       <TouchableOpacity onPress={() => router.push("/auth/loginPage")}>
         <Text style={styles.link}>Already have an account? Login</Text>
@@ -83,16 +151,6 @@ export default function RegisterPage() {
       <TouchableOpacity onPress={() => router.push("/")}>
         <Text style={styles.link}>Go Back to Home</Text>
       </TouchableOpacity>
-
-    </View>
+    </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", padding: 20 },
-  title: { fontSize: 24, fontWeight: "bold", marginBottom: 20, textAlign: "center" },
-  input: { borderWidth: 1, borderColor: "#ccc", padding: 10, marginBottom: 15, borderRadius: 5 },
-  button: { backgroundColor: "#007bff", padding: 15, borderRadius: 5 },
-  buttonText: { color: "#fff", textAlign: "center", fontWeight: "bold" },
-  link: { marginTop: 15, textAlign: "center", color: "#007bff" },
-});
